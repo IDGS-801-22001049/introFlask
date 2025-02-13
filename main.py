@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -49,6 +50,84 @@ def func(param='juan'):
         </form>
         <h1>El parámetro es: {param}</h1>
     '''
+
+@app.route('/operacion')
+def operacion():
+    return render_template('operasbas.html')
+
+@app.route('/resultados', methods={'POST'})
+def resultados():
+    n1 = request.form.get('n1')
+    n2 = request.form.get('n2')
+    return f'la suma de tu {n1} * {n2} es igual a: {int(n1) * int(n2)}'
+
+@app.route('/operacion1')
+def operacion1():
+    return render_template('OperasBas1.html')
+
+@app.route('/resultado1', methods=['POST'])
+def resultado1():
+    num1 = request.form.get('n1', type=float)
+    num2 = request.form.get('n2', type=float)
+    operacion = request.form.get('operacion')
+    
+    if operacion == 'suma':
+        resultado = num1 + num2
+    elif operacion == 'resta':
+        resultado = num1 - num2
+    elif operacion == 'multiplicacion':
+        resultado = num1 * num2
+    elif operacion == 'division':
+        resultado = num1 / num2 if num2 != 0 else 'Error: División por cero'
+    elif operacion == 'potencia':
+        resultado = num1 ** num2
+    else:
+        resultado = 'Operación no válida'
+    
+    return f'El resultado de la {operacion} es: {resultado}'
+
+@app.route('/cinepolis')
+def cinepolis():
+    return render_template('cinepolis.html')
+
+@app.route('/resultado', methods=['POST'])
+def resultado():
+    nombre = request.form.get('nombre')
+    compradores = int(request.form.get('compradores'))
+    boletos = int(request.form.get('boletos'))
+    tarjeta_cineco = request.form.get('tarjeta') == 'si'
+
+    while True:
+        if boletos < 1 or boletos > compradores * 7:
+            print(f"Cada persona puede comprar hasta 7 boletos. En total pueden comprar hasta {compradores * 7}.")
+            opcion = request.form.get('corregir')
+            if opcion == "personas":
+                compradores = int(request.form.get('nuevo_compradores'))
+                boletos = int(request.form.get('boletos'))
+            elif opcion == "boletos":
+                boletos = int(request.form.get('nuevo_boletos'))
+            else:
+                return render_template('correccion.html')
+        else:
+            break 
+
+    precio_unitario = 12.00
+    total_bruto = boletos * precio_unitario
+
+    if boletos > 5:
+        descuento = 0.15
+    elif 3 <= boletos <= 5:
+        descuento = 0.10
+    else:
+        descuento = 0.0
+
+    total_descuento = total_bruto * descuento
+    total_a_pagar = total_bruto - total_descuento
+
+    if tarjeta_cineco:
+        total_a_pagar *= 0.90
+
+    return render_template('resultado.html', nombre=nombre, compradores=compradores, boletos=boletos, total=round(total_a_pagar, 2))
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)

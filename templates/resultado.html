@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultado - Cinépolis Flask</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="titulo-principal">Resumen de la Compra</h1>
+      <p><strong>Comprador:</strong> {{ nombre }}</p>
+      <p><strong>Total a Pagar:</strong> ${{ total }}</p>
+      <a href="/cinepolis">Volver</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Correccion - Cinépolis Flask</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="titulo-principal">Error</h1>
+      <p><strong>Excede el numero de boletos permitidos por persona</strong></p>
+      <p>
+        <strong
+          >Corrija el numero de boletos o el numero de personas a
+          comprar</strong
+        >
+      </p>
+      <a href="/cinepolis">Volver</a>
+    </div>
+  </body>
+</html>
