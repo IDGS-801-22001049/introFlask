@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zodiaco Chino</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="titulo-principal">Zodiaco Chino</h1>
+
+      <div class="contenido">
+        <div class="entradas">
+          <h2>Información Personal</h2>
+          <form action="/resultado_zodiaco" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required />
+
+            <label for="appellidoPaterno">Apellido Paterno:</label>
+            <input
+              type="text"
+              id="appellidoPaterno"
+              name="appellidoPaterno"
+              required
+            />
+
+            <label for="appellidoMaterno">Apellido Materno:</label>
+            <input
+              type="text"
+              id="appellidoMaterno"
+              name="appellidoMaterno"
+              required
+            />
+
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input
+              type="date"
+              id="fecha_nacimiento"
+              name="fecha_nacimiento"
+              required
+            />
+
+            <label>Sexo:</label>
+            <label for="sexo_masculino">Masculino</label>
+            <input
+              type="radio"
+              id="sexo_masculino"
+              name="sexo"
+              value="Masculino"
+              required
+            />
+            <label for="sexo_femenino">Femenino</label>
+            <input
+              type="radio"
+              id="sexo_femenino"
+              name="sexo"
+              value="Femenino"
+              required
+            />
+
+            <div class="acciones">
+              <button type="submit">Mostrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

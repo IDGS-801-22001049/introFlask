@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zodiaco Chino</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="titulo-principal">Zodiaco Chino</h1>
+
+      <div class="contenido">
+        <div class="resultado">
+          <h2>Información del Usuario</h2>
+          <p><strong>Nombre:</strong> {{ nombre }}</p>
+          <p><strong>Apellido Paterno:</strong> {{ appellidoPaterno }}</p>
+          <p><strong>Apellido Materno:</strong> {{ appellidoMaterno }}</p>
+          <p><strong>Edad:</strong> {{ edad }} años</p>
+          <p><strong>Sexo:</strong> {{ sexo }}</p>
+          <p><strong>Signo Zodiacal Chino:</strong> {{ signo_chino }}</p>
+          <img
+            src="{{ url_for('static', filename='images/' + imagen_signo) }}"
+            alt="{{ signo_chino }}"
+          />
+        </div>
+
+        <div class="acciones">
+          <button type="button" onclick="window.location.href='/zodiaco_chino'">
+            Volver
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

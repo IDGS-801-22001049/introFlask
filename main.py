@@ -1,5 +1,6 @@
 
 from flask import Flask, render_template, request
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -128,6 +129,39 @@ def resultado():
         total_a_pagar *= 0.90
 
     return render_template('resultado.html', nombre=nombre, compradores=compradores, boletos=boletos, total=round(total_a_pagar, 2))
+
+@app.route('/zodiaco_chino')
+def zodiaco_chino():
+    return render_template('zodiaco_chino.html')
+
+@app.route('/resultado_zodiaco', methods=['POST'])
+def resultado_zodiaco():
+    nombre = request.form.get('nombre')
+    appellidoPaterno = request.form.get('appellidoPaterno')
+    appellidoMaterno = request.form.get('appellidoMaterno')
+
+    fecha_nacimiento = request.form.get('fecha_nacimiento')
+    sexo = request.form.get('sexo')
+
+    fecha_nacimiento = datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
+
+    dia = fecha_nacimiento.day
+    mes = fecha_nacimiento.month
+    ano = fecha_nacimiento.year
+
+    fecha_actual = datetime.now()
+    edad = fecha_actual.year - ano
+    if (fecha_actual.month, fecha_actual.day) < (mes, dia):
+        edad -= 1
+
+    signos_chinos = ["Rata", "Buey", "Tigre", "Conejo", "Dragón", "Serpiente", 
+                     "Caballo", "Cabra", "Mono", "Gallo", "Perro", "Cerdo"]
+    signo_chino = signos_chinos[(ano - 1900) % 12]
+
+    imagen_signo = f"{signo_chino.lower()}.jpg"
+
+    return render_template('resultado_zodiaco.html', nombre=nombre, appellidoPaterno=appellidoPaterno, appellidoMaterno=appellidoMaterno, edad=edad, 
+                           signo_chino=signo_chino, imagen_signo=imagen_signo, sexo=sexo)
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
