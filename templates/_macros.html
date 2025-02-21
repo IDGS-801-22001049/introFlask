@@ -1,0 +1,9 @@
+{%macro datos(name,placeholder,type="text") %} # Si no se pasa el parámetro type es 'text' por defecto
+    <label for="name">{{name}}:</label>
+    <p><input name="{{name}}" type="{{type}}" placeholder="{{placeholder}}"><br></p> #Para que la macro funcione se debe de encerrar en alguna etiqueta html
+{%endmacro%}
+
+{%macro camposNuevos(field) %} 
+    <td>{{field.label}}</td>
+    <dd>{{field() | safe}}</dd>
+{%endmacro%}
