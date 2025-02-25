@@ -1,6 +1,14 @@
 
 from flask import Flask, render_template, request
 from datetime import datetime
+from flask_wtf.csrf import CSRFProtect
+import forms
+from flask import flash
+from flask import g
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = '1234' 
+csrf = CSRFProtect(app)
 
 app = Flask(__name__)
 
@@ -163,5 +171,43 @@ def resultado_zodiaco():
     return render_template('resultado_zodiaco.html', nombre=nombre, appellidoPaterno=appellidoPaterno, appellidoMaterno=appellidoMaterno, edad=edad, 
                            signo_chino=signo_chino, imagen_signo=imagen_signo, sexo=sexo)
 
+
+@app.route('/alumnos', methods=['GET', 'POST'])
+def alumnos():
+    
+    mat=''
+    nom=''
+    ape=''
+    correo=''
+    
+    alumno_clas = forms.UserForm(request.form)
+    if request.method == 'POST' and alumno_clas.validate():
+        mat = alumno_clas.matricula.data
+        nom = alumno_clas.nombre.data
+        ape = alumno_clas.apellido.data
+        correo = alumno_clas.correo.data
+
+        mensaje = "Bienvenido []"
+        flash(mensaje)
+        
+    return render_template('Alumnos.html', form=alumno_clas,mat=mat, nom=nom, ape=ape, correo=correo)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+@app.before_request
+def before_request():
+        print("before request")
+
+@app.after_request
+def after_request(response):
+    print("after request")
+    return response
+
+
+
 if __name__ == "__main__":
+    csrf.init_app(app)
     app.run(debug=True, port=3000)

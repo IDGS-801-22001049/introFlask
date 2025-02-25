@@ -1,24 +1,16 @@
-{%extends 'layout2.html'%}
-{% block content %}
-{% import '_macros.html' as macro %}
-    
-<form action="">
-    {{macro.camposNuevos(form.matricula)}}
-    {{macro.camposNuevos(form.nombre)}}
-    {{macro.camposNuevos(form.apellido)}}
-    {{macro.camposNuevos(form.correo)}}
-    <!--
-    {{macro.datos("Nombre","Nombre")}}
-    {{macro.datos("Edad","Edad","Number")}}
-    {{macro.datos("Email","Email","email")}}
-    {{macro.datos("Password","Password","password")}}
--->
-    <input class="btn btn-primary" type="submit" value="Guardar">
+{%extends 'layout_2.html'%} {%block content%} {%import '_macros.html' as macro%}
+
+<form action="" method="post" novalidate>
+  {{form.csrf_token}}
+  <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+  {{macro.camposNuevos(form.nombre)}} {{macro.camposNuevos(form.apellido)}}
+  {{macro.camposNuevos(form.correo)}} {{macro.camposNuevos(form.matricula)}}
+  <input type="submit" name="btn1" value="'guardar" class="btn btn-primary" />
 </form>
 
-<h2>Matrícula: {{mat}}</h2>
-<h2>Nombre: {{nom}}</h2>
-<h2>Apellido: {{ape}}</h2>
-<h2>Email: {{email}}</h2>
+<h2>Matricula:{{mat}}</h2>
+<h2>nombre:{{nom}}</h2>
+<h2>apellido:{{ape}}</h2>
+<h2>correo:{{correo}}</h2>
 
-{% endblock %}
+{%endblock%}

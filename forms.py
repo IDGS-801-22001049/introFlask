@@ -1,18 +1,21 @@
 from wtforms import Form
-from wtforms import StringField,PasswordField,BooleanField,SubmitField,EmailField,IntegerField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, EmailField
 from wtforms import validators
 
 class UserForm(Form):
-    matricula=IntegerField('Matrícula',[
-        validators.DataRequired(message='¡Campo requerido!'),
-        validators.length(min=3,max=10,message='3-10 caracteres'),
+    matricula = IntegerField('matricula', [
+        validators.DataRequired(message='El campo es requerido'),  
+        validators.Length(min=3, max=10, message='de 3 a 10 caracteres')
     ])
-    nombre=StringField('Nombre',[
-        validators.DataRequired(message='¡Campo requerido!')
+    nombre = StringField('nombre',[
+        validators.DataRequired(message='El campo es requerido'),  
+        validators.Length(min=3, max=20, message='de 3 a 20 caracteres')
     ])
-    apellido=StringField('Apellido',[
-        validators.DataRequired(message='¡Campo requerido!')
+    apellido = StringField('apellido',[
+        validators.DataRequired(message='El campo es requerido'),  
+        validators.Length(min=3, max=20, message='de 3 a 20 caracteres')
     ])
-    correo=EmailField('Correo',[
-        validators.DataRequired(message='¡Campo requerido!')
+    correo = EmailField('correo',[
+        validators.DataRequired(message='El campo es requerido'),  
+        validators.Length(min=3, max=20, message='de 3 a 20 caracteres')
     ])
