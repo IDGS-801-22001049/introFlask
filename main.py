@@ -1,16 +1,15 @@
 
-from flask import Flask, render_template, request
+from flask import Flask, flash, redirect, render_template, request
 from datetime import datetime
 from flask_wtf.csrf import CSRFProtect
-import forms
+import forms, zodiaco
+import os
 from flask import flash
 from flask import g
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '1234' 
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 csrf = CSRFProtect(app)
-
-app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -143,6 +142,7 @@ def zodiaco_chino():
     return render_template('zodiaco_chino.html')
 
 @app.route('/resultado_zodiaco', methods=['POST'])
+@csrf.exempt
 def resultado_zodiaco():
     nombre = request.form.get('nombre')
     appellidoPaterno = request.form.get('appellidoPaterno')
@@ -171,8 +171,8 @@ def resultado_zodiaco():
     return render_template('resultado_zodiaco.html', nombre=nombre, appellidoPaterno=appellidoPaterno, appellidoMaterno=appellidoMaterno, edad=edad, 
                            signo_chino=signo_chino, imagen_signo=imagen_signo, sexo=sexo)
 
-
 @app.route('/alumnos', methods=['GET', 'POST'])
+@csrf.exempt
 def alumnos():
     
     mat=''
@@ -207,7 +207,45 @@ def after_request(response):
     return response
 
 
+@app.route('/zodiaco_chino_2', methods=['GET', 'POST'])
+@csrf.exempt
+def zodiaco_chino_2():
+
+    nombre = ''
+    apellido_paterno = ''
+    apellido_materno = ''
+    fecha_nacimiento = ''
+    sexo = ''
+
+    form = zodiaco.ZodiacoChinoForm(request.form)
+    if request.method == 'POST' and form.validate():
+        nombre = form.nombre.data
+        apellido_paterno = form.apellido_paterno.data
+        apellido_materno = form.apellido_materno.data
+        fecha_nacimiento = form.fecha_nacimiento.data
+        sexo = form.sexo.data
+
+        dia = fecha_nacimiento.day
+        mes = fecha_nacimiento.month
+        ano = fecha_nacimiento.year
+
+        fecha_actual = datetime.now()
+        edad = fecha_actual.year - ano
+        if (fecha_actual.month, fecha_actual.day) < (mes, dia):
+            edad -= 1
+
+        signos_chinos = ["Rata", "Buey", "Tigre", "Conejo", "Dragón", "Serpiente", 
+                         "Caballo", "Cabra", "Mono", "Gallo", "Perro", "Cerdo"]
+        signo_chino = signos_chinos[(ano - 1900) % 12]
+
+        imagen_signo = f"{signo_chino.lower()}.jpg"
+
+        flash("Información procesada correctamente")
+        return render_template('resultado_zodiaco_2.html', nombre=nombre, apellido_paterno=apellido_paterno, 
+                               apellido_materno=apellido_materno, edad=edad, signo_chino=signo_chino, 
+                               imagen_signo=imagen_signo, sexo=sexo)
+
+    return render_template('zodiaco_chino_2.html', form=form)
 
 if __name__ == "__main__":
-    csrf.init_app(app)
     app.run(debug=True, port=3000)

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultado Zodiaco Chino</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Resultado del Zodiaco Chino</h1>
+      <p><strong>Nombre:</strong> {{ nombre }}</p>
+      <p><strong>Apellido Paterno:</strong> {{ apellido_paterno }}</p>
+      <p><strong>Apellido Materno:</strong> {{ apellido_materno }}</p>
+      <p><strong>Edad:</strong> {{ edad }} años</p>
+      <p><strong>Sexo:</strong> {{ sexo }}</p>
+      <p><strong>Signo Zodiacal Chino:</strong> {{ signo_chino }}</p>
+      <img
+        src="{{ url_for('static', filename='images/' + imagen_signo) }}"
+        alt="{{ signo_chino }}"
+      />
+      <a href="/zodiaco_chino_2" class="btn btn-primary">Volver</a>
+    </div>
+  </body>
+</html>

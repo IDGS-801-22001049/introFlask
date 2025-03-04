@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, IntegerField, Email
 from wtforms import validators
 
 class UserForm(Form):
-    matricula = IntegerField('matricula', [
+    matricula = StringField('matricula', [
         validators.DataRequired(message='El campo es requerido'),  
         validators.Length(min=3, max=10, message='de 3 a 10 caracteres')
     ])
